@@ -66,12 +66,12 @@ The project is divided into two applications: The authentication and the game li
 
 ### Structure of the product
 
-![alt text][../productStructure]
+![alt text](productStructure.png)
 
 ### Models’ relation structure
 
-A picture	
-	
+![alt text](modelsRelation.png)	
+
 ## Working habits and timetable
 
 We will meet once a week in the beginning of the week to go through that particular week’s goals and tasks. We all are in school otherwise also so working together on the project will be natural, but the weekly meetings help us concentrate on the bigger picture once in a while. We will use Telegram for communication.
