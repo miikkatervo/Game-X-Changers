@@ -3,9 +3,9 @@
 CS-C3170 Web Software Development 2019 / 2020 
 Course Project
 
-Tervo, Miikka		654058	miikka.tervo@aalto.fi
+Tervo, Miikka   654058  miikka.tervo@aalto.fi
 Jokinen, Ekku	666091	ekku.jokinen@aalto.fi
-Määttä, Arttu		667155	arttu.maatta@aalto.fi
+Määttä, Arttu	667155	arttu.maatta@aalto.fi
 
 ## Overview
 
@@ -66,7 +66,7 @@ The project is divided into two applications: The authentication and the game li
 
 ### Structure of the product
 
-A picture
+![alt text][../productStructure]
 
 ### Models’ relation structure
 
