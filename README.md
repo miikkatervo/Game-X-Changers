@@ -3,8 +3,8 @@
 CS-C3170 Web Software Development 2019 / 2020 
 Course Project
 
-Tervo, Miikka   654058  miikka.tervo@aalto.fi
-Jokinen, Ekku	666091	ekku.jokinen@aalto.fi
+Tervo, Miikka   654058  miikka.tervo@aalto.fi  
+Jokinen, Ekku	666091	ekku.jokinen@aalto.fi  
 Määttä, Arttu	667155	arttu.maatta@aalto.fi
 
 ## Overview
