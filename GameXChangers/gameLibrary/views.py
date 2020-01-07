@@ -13,3 +13,6 @@ def browseGames(request):
 
 def myGames(request):
     return render(request, 'gameLibrary/myGames.html')
+
+def playGame(request):
+    return render(request, 'gameLibrary/playGame.html')
