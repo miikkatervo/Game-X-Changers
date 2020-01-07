@@ -7,5 +7,5 @@ login_view = auth_views.LoginView.as_view()
 
 urlpatterns = [
     path('login/', login_view, name='login'),
-    #path('register/', views.register, name='register')
+    path('register/', views.register, name='register')
 ]
