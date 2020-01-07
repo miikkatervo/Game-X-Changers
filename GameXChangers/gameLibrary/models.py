@@ -9,11 +9,14 @@ from django.db.models import Model
 
 class Game(models.Model):
     name = models.CharField(max_length=30 , unique = True)
-    description = models.TextField
-    url = models.URLField
-    highscore = models.IntegerField
-    price = models.IntegerField
-    
+    description = models.TextField(default='Game Description')
+    url = models.URLField(blank=True)
+    highscore = models.IntegerField(default=0)
+    price = models.IntegerField(default=0)
+
+    def __str__(self):
+        return self.name
+
 
 class Transaction(models.Model):
     buyerName = models.CharField(max_length=30 , unique = True)
