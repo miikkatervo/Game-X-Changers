@@ -24,9 +24,11 @@ class Transaction(models.Model):
     price = models.IntegerField
     timestamp = models.DateTimeField(auto_now_add=True)
 
+#progress and highscore are as attributes because if they are as models with foreignKeys, we'd have to iterate 3 times when working
+#with a specific user/game pair.
 class OwnedGame(models.Model):
-    user = models.CharField(max_length=30)
-    game = models.CharField(max_length=30)
+    user = models.ForeignKey(User, on_delete = models.CASCADE)
+    game = models.ForeignKey(Game, on_delete = models.CASCADE)
     #0-100
     progress = models.IntegerField
     highscore = models.IntegerField
