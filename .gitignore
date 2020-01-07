@@ -1,7 +1,5 @@
 
 # Local Virtual Environments 
 wsdProjectEnv/
-env/
-
-# VS Code configuration
 .vscode/
+.venv/
