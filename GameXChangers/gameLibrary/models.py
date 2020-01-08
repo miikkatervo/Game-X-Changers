@@ -33,5 +33,5 @@ class OwnedGame(models.Model):
 
 #only one developer per game, thus game is unique
 class DevelopedGame(models.Model):
-    user = models.CharField(max_length=30 )
-    game = models.CharField(max_length=30 , unique = True)
+    user = models.CharField(max_length=30)
+    game = models.CharField(max_length=30, unique=True)
