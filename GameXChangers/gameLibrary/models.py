@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 # Model User comes directly from django.contri.auth.
 # https://docs.djangoproject.com/en/3.0/ref/contrib/auth/
@@ -12,16 +13,20 @@ class Game(models.Model):
     price = models.IntegerField(default=0)
 
     # May be more efficient to store the "player-game" -relation
-    # in the User-model. To be considered
-    players = models.ManyToManyField(models.User, through='OwnedGame')
-    developer = models.ForeignKey(models.User, on_delete=models.CASCADE)
+    # in the User-model. To be considered.
+    players = models.ManyToManyField(User, through='OwnedGame')
+    developer = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name='developed_game',
+        default=)
 
     def __str__(self):
         return self.name
 
 
 class OwnedGame(models.Model):
-    player = models.ForeignKey(models.User, on_delete=models.CASCADE)
+    player = models.ForeignKey(User, on_delete=models.CASCADE)
     game = models.ForeignKey(Game, on_delete=models.CASCADE)
     bought_at = models.DateTimeField(auto_now_add=True)
     # 0-100
