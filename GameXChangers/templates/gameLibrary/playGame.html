@@ -4,6 +4,7 @@
 <div class="container">
     <div class="gameView">
         <iframe id="game" width="300" height="230" src="https://users.aalto.fi/~oseppala/game/example_game.html">
+            {% csrf_token %}
         </iframe>
         <div class="media-body">
             <h5 class="mt-0">Test Game</h5>
