@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 # Model User comes directly from django.contri.auth.
 # https://docs.djangoproject.com/en/3.0/ref/contrib/auth/
 
-
+default_user = user = User.objects.create_user('Mike', 'Mike@email.com', 'mikepassword1')
 class Game(models.Model):
     name = models.CharField(max_length=30, unique=True)
     description = models.TextField(default='Game Description')
@@ -19,7 +19,7 @@ class Game(models.Model):
         User,
         on_delete=models.CASCADE,
         related_name='developed_game',
-        default=)
+        default='')
 
     def __str__(self):
         return self.name
