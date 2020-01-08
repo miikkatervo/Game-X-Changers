@@ -11,6 +11,8 @@ class Game(models.Model):
     highscore = models.IntegerField(default=0)
     price = models.IntegerField(default=0)
 
+    # May be more efficient to store the "player-game" -relation
+    # in the User-model. To be considered
     players = models.ManyToManyField(models.User, through='OwnedGame')
     developer = models.ForeignKey(models.User, on_delete=models.CASCADE)
 
