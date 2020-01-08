@@ -1,22 +1,30 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="container">
-    <div class="gameView">
-        <iframe id="game" width="300" height="230" src="https://users.aalto.fi/~oseppala/game/example_game.html">
-            {% csrf_token %}
+<div class="container" style="padding-top: 30px;">
+    <div class="gameView" style="display: inline-flex;">
+        <iframe id="myframe" width="300" height="230" src={{ game.url }}>
         </iframe>
-        <div class="media-body">
-            <h5 class="mt-0">Test Game</h5>
-            <p>Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus
-                odio,
-                vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla.
-                Donec
-                lacinia congue felis in faucibus.</p>
-            <p>Donec sed odio dui. Nullam quis risus eget urna mollis ornare vel eu leo. Cum sociis natoque penatibus et
-                magnis dis parturient montes, nascetur ridiculus mus.</p>
+        <div class="media-body" style="padding-left: 10px;">
+            <h5 class="mt-0">{{ game.name }}</h5>
+            <p>{{ game.description }}</p>
         </div>
     </div>
 </div>
+<script>
+    window.onmessage = function(event) {
+    event.source.postMessage(document.body.innerHTML, event.origin);
+};
+
+// Main page:
+window.onmessage = function(event) {
+    console.log("j")
+    alert(event.data);
+};
+
+// Trigger:
+// <iframe id="myframe" src="framed.htm"></iframe>
+document.getElementById('myframe').contentWindow.postMessage('','*');
+</script>
 
 {% endblock %}

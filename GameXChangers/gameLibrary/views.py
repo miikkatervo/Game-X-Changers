@@ -14,5 +14,10 @@ def browseGames(request):
 def myGames(request):
     return render(request, 'gameLibrary/myGames.html')
 
-def playGame(request):
-    return render(request, 'gameLibrary/playGame.html')
+# Show gaming view for specific game
+def playGame(request, game_id):
+    try:
+        game = Game.objects.get(pk=game_id)
+    except Game.DoesNotExist:
+        raise Http404("Question does not exist")
+    return render(request, 'gameLibrary/playGame.html', { 'game': game })
