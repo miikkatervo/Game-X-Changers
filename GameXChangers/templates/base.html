@@ -31,6 +31,16 @@
                         <a class="nav-link" href="/gameLibrary/myGames/">My Games</a>
                     </li>
 
+                    {% if user.is_authenticated %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="/authentication/logout/">Log Out</a>
+                    </li>
+                    {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="/authentication/login/">Log In</a>
+                    </li>
+                    {% endif %}
+
                 </ul>
             </div>
         </div>
