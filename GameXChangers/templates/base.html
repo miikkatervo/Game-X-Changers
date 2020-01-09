@@ -22,26 +22,32 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav">
+                <ul class="navbar-nav mr-auto">
                     
                     <li class="nav-item">
                         <a class="nav-link" href="/gameLibrary/browseGames/">Browse Games</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/gameLibrary/myGames/">My Games</a>
-                    </li>
 
                     {% if user.is_authenticated %}
                     <li class="nav-item">
-                        <a class="nav-link" href="/authentication/logout/">Log Out</a>
+                        <a class="nav-link" href="/gameLibrary/myGames/">My Games</a>
                     </li>
-                    {% else %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="/authentication/login/">Log In</a>
-                    </li>
+                    
                     {% endif %}
-
+                    
                 </ul>
+                
+                {% if user.is_authenticated %}
+                <div class="nav-item">
+                    <a href="/authentication/logout/" role ="button" class="btn btn-outline-dark">Log Out</a>
+                </div>
+
+                {% else %}
+                <div class="nav-item">
+                    <a href="/authentication/login/" role="button" class="btn btn-outline-dark">Log In</a>
+                </div>
+                {% endif %}
+
             </div>
         </div>
     </nav>

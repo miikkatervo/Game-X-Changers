@@ -1,7 +1,30 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <div>
-        <h1>Play game</h1>
+<div class="container" style="padding-top: 30px;">
+    <div class="gameView" style="display: inline-flex;">
+        <iframe id="myframe" width="300" height="230" src={{ game.url }}>
+        </iframe>
+        <div class="media-body" style="padding-left: 10px;">
+            <h5 class="mt-0">{{ game.name }}</h5>
+            <p>{{ game.description }}</p>
+        </div>
     </div>
+</div>
+<script>
+    window.onmessage = function(event) {
+    event.source.postMessage(document.body.innerHTML, event.origin);
+};
+
+// Main page:
+window.onmessage = function(event) {
+    console.log("j")
+    alert(event.data);
+};
+
+// Trigger:
+// <iframe id="myframe" src="framed.htm"></iframe>
+document.getElementById('myframe').contentWindow.postMessage('','*');
+</script>
+
 {% endblock %}
