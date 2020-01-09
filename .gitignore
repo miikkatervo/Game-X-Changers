@@ -1,6 +1,6 @@
 
 # Local Virtual Environments 
-wsdProjectEnv/
+wsdEnv/
 .vscode/
 .venv/
 env/
