@@ -1,4 +1,11 @@
 from django.db import models
+from django.utils import timezone
+from django.contrib.auth.models import User
+
+
+class AutoDateTimeField(models.DateTimeField):
+    def pre_save(self, model_instance, add):
+        return timezone.now()
 
 # Model User comes directly from django.contri.auth.
 # https://docs.djangoproject.com/en/3.0/ref/contrib/auth/
@@ -13,17 +20,19 @@ class Game(models.Model):
 
     # May be more efficient to store the "player-game" -relation
     # in the User-model. To be considered
-    players = models.ManyToManyField(models.User, through='OwnedGame')
-    developer = models.ForeignKey(models.User, on_delete=models.CASCADE)
+    # players = models.ManyToManyField(models.User, through='OwnedGame')
+    # developer = models.ForeignKey(models.User, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.name
 
 
 class OwnedGame(models.Model):
-    player = models.ForeignKey(models.User, on_delete=models.CASCADE)
+    player = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     game = models.ForeignKey(Game, on_delete=models.CASCADE)
-    bought_at = models.DateTimeField(auto_now_add=True)
+    bought_at = models.DateTimeField(default = timezone.now)
     # 0-100
     progress = models.IntegerField(default=0)
     highscore = models.IntegerField(default=0)
+    
+    
