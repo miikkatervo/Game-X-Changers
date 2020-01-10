@@ -3,28 +3,55 @@
 {% block content %}
 <div class="container" style="padding-top: 30px;">
     <div class="gameView" style="display: inline-flex;">
-        <iframe id="myframe" width="300" height="230" src={{ game.url }}>
+        <iframe id="myframe" style="width: 100; height: 100;" src={{ game.url }}>
         </iframe>
         <div class="media-body" style="padding-left: 10px;">
             <h5 class="mt-0">{{ game.name }}</h5>
             <p>{{ game.description }}</p>
+            <div class="media-body" style="padding-left: 10px; padding-top: 20px;">
+                <h5 class="mt-0">Highscores</h5>
+                {% if owned_game_objects %}
+                {% for owned_game in owned_game_objects %}
+                <span class="card-body">
+                    <h6>{{ owned_game.player.username }}
+                        <span class="badge badge-secondary">{{ owned_game.game.highscore }}
+                        </span></h6>
+                </span>
+                {% endfor %}
+                {% else %}
+                <p>No scores yet</p>
+                {% endif %}
+            </div>
         </div>
     </div>
 </div>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script>
-    window.onmessage = function(event) {
-    event.source.postMessage(document.body.innerHTML, event.origin);
-};
+    var myFrame = document.getElementById('myFrame');
+    window.onmessage = function (event) {
+        console.log(event.data)
+        var message = event.data;
+        if (message.messageType == "SETTING") {
+            $("myFrame").width = message.options.width;
+            $("myFrame").height = message.options.height;
+        } else if (message.messageType == "SCORE") {
+            $.ajax({
+                type:'POST',
+                url: 'http://127.0.0.1:8000/gameLibrary/playGame/2',
+                data: {
+                    'csrfmiddlewaretoken': "{{  csrf_token  }}",
+                    score: message.score
+                },
+                success: function() { }
+            });
 
-// Main page:
-window.onmessage = function(event) {
-    console.log("j")
-    alert(event.data);
-};
+        } else if (message.messageType == "SAVE") {
+            console.log(message)
+        } else if (message.messageType == "LOAD") {
+            console.log(message)
+        }
+    };
 
-// Trigger:
-// <iframe id="myframe" src="framed.htm"></iframe>
-document.getElementById('myframe').contentWindow.postMessage('','*');
 </script>
 
 {% endblock %}
