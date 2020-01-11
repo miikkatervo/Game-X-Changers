@@ -3,18 +3,19 @@
 {% block content %}
 <div class="container" style="padding-top: 30px;">
     <div class="gameView" style="display: inline-flex;">
-        <iframe id="myframe" style="width: 100; height: 100;" src={{ game.url }}>
+        <iframe id="myFrame" style="width: 100; height: 100;" src={{ game.url }}>
         </iframe>
         <div class="media-body" style="padding-left: 10px;">
             <h5 class="mt-0">{{ game.name }}</h5>
             <p>{{ game.description }}</p>
+            <p>{{ users_game.progress }}</p>
             <div class="media-body" style="padding-left: 10px; padding-top: 20px;">
                 <h5 class="mt-0">Highscores</h5>
                 {% if owned_game_objects %}
                 {% for owned_game in owned_game_objects %}
                 <span class="card-body">
                     <h6>{{ owned_game.player.username }}
-                        <span class="badge badge-secondary">{{ owned_game.game.highscore }}
+                        <span class="badge badge-secondary">{{ owned_game.highscore }}
                         </span></h6>
                 </span>
                 {% endfor %}
@@ -27,9 +28,9 @@
 </div>
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script>
-    var myFrame = document.getElementById('myFrame');
+
+    var myFrame = document.getElementById('myFrame').contentWindow;
     window.onmessage = function (event) {
-        console.log(event.data)
         var message = event.data;
         if (message.messageType == "SETTING") {
             $("myFrame").width = message.options.width;
@@ -37,7 +38,7 @@
         } else if (message.messageType == "SCORE") {
             $.ajax({
                 type:'POST',
-                url: 'http://127.0.0.1:8000/gameLibrary/playGame/2',
+                url: 'http://127.0.0.1:8000/gameLibrary/playGame/4',
                 data: {
                     'csrfmiddlewaretoken': "{{  csrf_token  }}",
                     score: message.score
@@ -46,9 +47,29 @@
             });
 
         } else if (message.messageType == "SAVE") {
+            $.ajax({
+                type:'POST',
+                url: 'http://127.0.0.1:8000/gameLibrary/playGame/4',
+                data: {
+                    'csrfmiddlewaretoken': "{{  csrf_token  }}",
+                    state: JSON.stringify(message.gameState)
+                },
+                success: function() { }
+            });
+
+        } else if (message.messageType == "LOAD_REQUEST") {
             console.log(message)
-        } else if (message.messageType == "LOAD") {
-            console.log(message)
+            
+            var loadMessage = {
+                "messageType": "LOAD",
+                "gameState": {
+                    "playerItems": [],
+                    "score": 11
+                }
+            };
+            console.log(myFrame)
+            myFrame.postMessage(loadMessage, "*");
+
         }
     };
 

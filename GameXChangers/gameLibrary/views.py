@@ -3,6 +3,7 @@ from .models import Game, OwnedGame
 from django.contrib.auth.models import User
 from .forms import GameForm
 from django.http import JsonResponse
+import json
 
 # Create your views here.
 
@@ -24,22 +25,38 @@ def myGames(request):
 
 # Show gaming view for specific game
 def playGame(request, game_id):
+    print(game_id)
     if request.method == 'GET':
         try:
             game = Game.objects.get(pk=game_id)
-            owned_game_objects = list(filter(lambda x: x.game.id == game_id, OwnedGame.objects.all()))
-            context = {'game': game, 'owned_game_objects': owned_game_objects,}
+            owned_game_objects = list(filter(lambda x: x.game.id == game_id,
+            OwnedGame.objects.all()))
+            users_game = OwnedGame.objects.get(player = request.user, game = game_id)
+            context = {'game': game, 'owned_game_objects': owned_game_objects, 'users_game': users_game,}
         except Game.DoesNotExist:
             raise Http404("Game does not exist")
     else:
-        try:
-            print("k")
-            obj = OwnedGame.objects.filter(player=request.user)[0].game
-            obj.highscore = request.POST['score']
-            obj.save()
-            return JsonResponse({'status':'Success', 'msg': 'save successfully'})
-        except:
-            raise Http404("Game not updated")
+        if 'score' in request.POST:
+
+            try:
+                obj = OwnedGame.objects.get(player=request.user, game = game_id)
+                if int(request.POST['score']) > obj.highscore: 
+                    obj.highscore = int(request.POST['score'])
+                    obj.save()
+                return JsonResponse({'status':'Success', 'msg': ' highscore save successfully'})
+            except:
+                raise Http404("Game not updated")
+
+        elif 'state' in request.POST:
+
+            try:
+                obj = OwnedGame.objects.get(player=request.user, game = game_id)
+                obj.progress = json.loads(request.POST['state'])
+                obj.save()  
+                return JsonResponse({'status':'Success', 'msg': 'progress save successfully'})
+            except:
+                raise Http404("GameState not saved")
+
     return render(request, 'gameLibrary/playGame.html', context)
 
 
