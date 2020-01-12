@@ -26,19 +26,22 @@
         </div>
     </div>
 </div>
+
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script>
 
     var myFrame = document.getElementById('myFrame').contentWindow;
     window.onmessage = function (event) {
         var message = event.data;
+        
         if (message.messageType == "SETTING") {
             $("myFrame").width = message.options.width;
             $("myFrame").height = message.options.height;
+
         } else if (message.messageType == "SCORE") {
             $.ajax({
                 type:'POST',
-                url: 'http://127.0.0.1:8000/gameLibrary/playGame/4',
+                url: '/gameLibrary/playGame/{{ game.id }}',
                 data: {
                     'csrfmiddlewaretoken': "{{  csrf_token  }}",
                     score: message.score
@@ -49,7 +52,7 @@
         } else if (message.messageType == "SAVE") {
             $.ajax({
                 type:'POST',
-                url: 'http://127.0.0.1:8000/gameLibrary/playGame/4',
+                url: '/gameLibrary/playGame/{{ game.id }}',
                 data: {
                     'csrfmiddlewaretoken': "{{  csrf_token  }}",
                     state: JSON.stringify(message.gameState)
@@ -59,18 +62,29 @@
 
         } else if (message.messageType == "LOAD_REQUEST") {
             console.log(message)
-            
+
             var loadMessage = {
                 "messageType": "LOAD",
                 "gameState": {
                     "playerItems": [],
                     "score": 11
+            }}
+
+            $.ajax({
+                type: 'POST',
+                url: '/gameLibrary/playGame/{{ game.id }}',
+                data: {
+                    'csrfmiddlewaretoken': "{{  csrf_token  }}",
+                    getProgress: ""
+                },
+                success: function(result) {
+                    console.log(result)
                 }
+            })
             };
-            console.log(myFrame)
+
             myFrame.postMessage(loadMessage, "*");
 
-        }
     };
 
 </script>

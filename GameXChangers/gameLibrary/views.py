@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from .forms import GameForm
 from django.http import JsonResponse
 import json
+from django.http import HttpResponse
 
 # Create your views here.
 
@@ -56,6 +57,17 @@ def playGame(request, game_id):
                 return JsonResponse({'status':'Success', 'msg': 'progress save successfully'})
             except:
                 raise Http404("GameState not saved")
+        
+        elif 'getProgress' in request.POST:
+
+            try:
+                obj = OwnedGame.objects.get(player=request.user, game = game_id)
+                progress = obj.progress
+                return HttpResponse(progress)
+
+            except:
+                raise Http404("Progress not found")
+
 
     return render(request, 'gameLibrary/playGame.html', context)
 
